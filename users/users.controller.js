@@ -6,6 +6,7 @@ const userService = require('./user.service');
 // routes
 router.post('/login', authenticate);
 router.post('/register', register);
+router.get('/profile', getMe);
 router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
@@ -47,6 +48,12 @@ function getById(req, res, next) {
 
 function member(req, res, next) {
     userService.updateMember(req.params.id)
+        .then(user => user ? res.json(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function getMe(req, res, next){
+    userService.getMe(req.user.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }

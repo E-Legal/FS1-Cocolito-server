@@ -12,7 +12,8 @@ module.exports = {
     update,
     updateMember,
     delete: _delete,
-    is_admin
+    is_admin,
+    getMe
 };
 
 async function authenticate({email, password}) {
@@ -30,6 +31,10 @@ async function is_admin(userid) {
     return Promise.resolve(User.findById(userid).then(user => {
         return user.admin;
     }));
+}
+
+async function getMe(userid) {
+    return await User.findById(userid);
 }
 
 async function getAll() {
