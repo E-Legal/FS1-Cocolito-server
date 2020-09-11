@@ -7,7 +7,7 @@ const schema = new Schema({
     username: { type: String},
     createdDate: { type: Date, default: Date.now },
     updateDate: { type: Date, default: Date.now },
-    user_id: {type : Object}
+    user_id: {type : Object},
 });
 
 schema.set('toJSON', {
