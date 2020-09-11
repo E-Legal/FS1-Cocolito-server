@@ -17,7 +17,7 @@ module.exports = {
 async function authenticate({email, password}) {
     let user = await User.findOne({email});
     if (user && bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({sub: user.id}, config.secret);
+        let token = jwt.sign({sub: user.id}, config.secret);
         return {
             ...user.toJSON(),
             token
@@ -51,8 +51,6 @@ async function create(userParam) {
 
     user.username = userParam.username;
     user.email = userParam.email;
-
-    //const user = new User(userParam);
 
     // hash password
     if (userParam.password) {
