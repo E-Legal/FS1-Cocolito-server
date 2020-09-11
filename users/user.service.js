@@ -11,8 +11,6 @@ module.exports = {
     create,
     update,
     updateMember,
-    delete: _delete,
-    is_admin,
     getMe
 };
 
@@ -25,12 +23,6 @@ async function authenticate({email, password}) {
             token
         };
     }
-}
-
-async function is_admin(userid) {
-    return Promise.resolve(User.findById(userid).then(user => {
-        return user.admin;
-    }));
 }
 
 async function getMe(userid) {
@@ -72,18 +64,14 @@ async function create(userParam) {
     return await user.save();
 }
 
-async function update(id, userParam) {
+async function update(id, {password}) {
     const user = await User.findById(id);
 
-    // validate
     if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({username: userParam.username})) {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
+    let userParam = user;
 
-    // hash password if it was entered
-    if (userParam.password) {
-        userParam.password = bcrypt.hashSync(userParam.password, 10);
+    if (password) {
+        userParam.password = bcrypt.hashSync(password, 10);
     }
 
     // copy userParam properties to user
@@ -101,8 +89,4 @@ async function updateMember(id) {
     userParam.member = true;
     Object.assign(user, userParam);
     return await user.save();
-}
-
-async function _delete(id) {
-    await User.findByIdAndRemove(id);
 }

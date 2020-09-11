@@ -12,7 +12,6 @@ router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.put('/member/:id', member);
 router.put('/', update);
-router.delete('/', _delete);
 
 module.exports = router;
 
@@ -52,30 +51,14 @@ function member(req, res, next) {
         .catch(err => next(err));
 }
 
-function getMe(req, res, next){
+function getMe(req, res, next) {
     userService.getMe(req.user.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 function update(req, res, next) {
-    if (userService.is_admin(req.user.sub).then(admin => {
-        if (admin == true) {
-            userService.update(req.user.sub, req.body)
-                .then(user => user ? res.json(user) : res.status(404).send({message: 'Somebody found an error'}))
-                .catch(err => next(err));
-        } else {
-            res.status(401).send({message: 'Make your dream'})
-        }
-    })) ;
-}
-
-function updateAdmin(req, res, next) {
-
-}
-
-function _delete(req, res, next) {
-    userService.delete(req.user.sub)
-        .then(() => res.json({}))
+    userService.update(req.user.sub, req.body)
+        .then(user => user ? res.json(user) : res.status(404).send({message: 'Somebody found an error'}))
         .catch(err => next(err));
 }
