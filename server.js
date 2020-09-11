@@ -1,6 +1,6 @@
 let express = require('express');
 let app = express();
-//let cors = require('cors');
+let cors = require('cors');
 let bodyParser = require('body-parser');
 let jwt = require('./_helpers/jwt');
 let errorHandler = require('./_helpers/error-handler');
@@ -8,7 +8,7 @@ let errorHandler = require('./_helpers/error-handler');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(cors());
+app.use(cors());
 
 // use JWT auth to secure the api
 app.use(jwt());
