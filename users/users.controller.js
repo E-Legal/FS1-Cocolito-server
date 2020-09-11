@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const userService = require('./user.service');
+let express = require('express');
+let router = express.Router();
+let userService = require('./user.service');
 
 
 // routes

@@ -1,11 +1,11 @@
 require('rootpath')();
 
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const jwt = require('_helpers/jwt');
-const errorHandler = require('_helpers/error-handler');
+let express = require('express');
+let app = express();
+let cors = require('cors');
+let bodyParser = require('body-parser');
+let jwt = require('_helpers/jwt');
+let errorHandler = require('_helpers/error-handler');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,7 +24,7 @@ app.use('/posts', require('./posts/posts.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 9000;
-const server = app.listen(port, function () {
+let port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 9000;
+let server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });

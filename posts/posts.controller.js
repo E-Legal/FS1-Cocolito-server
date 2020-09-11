@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-const barrackService = require('./post.service');
+let barrackService = require('./post.service');
 
 // routes
 router.post('/', createPost);

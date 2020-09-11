@@ -1,8 +1,8 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const db = require('_helpers/db');
-const User = db.User;
+let config = require('config.json');
+let jwt = require('jsonwebtoken');
+let bcrypt = require('bcryptjs');
+let db = require('_helpers/db');
+let User = db.User;
 
 module.exports = {
     authenticate,
@@ -15,7 +15,7 @@ module.exports = {
 };
 
 async function authenticate({email, password}) {
-    const user = await User.findOne({email});
+    let user = await User.findOne({email});
     if (user && bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign({sub: user.id}, config.secret);
         return {
@@ -47,7 +47,7 @@ async function create(userParam) {
         throw 'Username "' + userParam.email + '" is already used';
     }
 
-    const user = new User();
+    let user = new User();
 
     user.username = userParam.username;
     user.email = userParam.email;
@@ -65,7 +65,7 @@ async function create(userParam) {
 }
 
 async function update(id, {password}) {
-    const user = await User.findById(id);
+    let user = await User.findById(id);
 
     if (!user) throw 'User not found';
     let userParam = user;
@@ -81,7 +81,7 @@ async function update(id, {password}) {
 }
 
 async function updateMember(id) {
-    const user = await User.findById(id);
+    let user = await User.findById(id);
     if (!user) throw 'User not found';
     let userParam = user;
 
