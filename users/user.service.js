@@ -1,7 +1,7 @@
-let config = require('config.json');
+let config = require('../config.json');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
-let db = require('_helpers/db');
+let db = require('../_helpers/db');
 let User = db.User;
 
 module.exports = {

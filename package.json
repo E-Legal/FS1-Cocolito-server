@@ -4,13 +4,10 @@
   "description": "For work on your own machine, you have to make this :",
   "main": "server.js",
   "dependencies": {
-    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^5.3.3",
-    "mongoose": "^5.10.4",
-    "rootpath": "^0.1.2"
+    "mongoose": "^5.10.4"
   },
   "devDependencies": {},
   "scripts": {

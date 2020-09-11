@@ -1,7 +1,7 @@
-let config = require('config.json');
+let config = require('../config.json');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
-let db = require('_helpers/db');
+let db = require('../_helpers/db');
 let Post = db.Post;
 let User = db.User;
 
@@ -42,7 +42,7 @@ async function updatePost(req, id) {
     if (req.body.title)
         postParam.title = req.body.title;
     if (req.body.message)
-        postParam.message = message;
+        postParam.message = req.body.message;
     Object.assign(post, postParam);
     return await post.save();
 }
