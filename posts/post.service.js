@@ -10,11 +10,16 @@ module.exports = {
     getById,
     createPost,
     updatePost,
+    getAllOfThisUser,
     delete: _delete,
 };
 
 async function getAll() {
     return await Post.find();
+}
+
+async function getAllOfThisUser(id) {
+    return await Post.find({user_id: id});
 }
 
 async function getById(id) {

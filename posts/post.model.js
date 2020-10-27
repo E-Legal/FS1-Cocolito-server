@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 let schema = new Schema({
     title: { type: String, required: true },
     message: { type: String, required: true },
-    username: { type: String},
+    username: { type: String,},
     createdDate: { type: Date, default: Date.now },
     updateDate: { type: Date, default: Date.now },
     user_id: {type : Object},
