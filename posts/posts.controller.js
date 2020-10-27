@@ -6,8 +6,8 @@ let postService = require('./post.service');
 // routes
 router.post('/', createPost);
 router.get('/', getAll);
+router.get('/user/:id', getAllOfUser);
 router.get('/me', getAllOfMe);
-router.get('/user/:id', getAllOfUser)
 router.get('/:id', getById);
 router.put('/:id', updatePost);
 router.delete('/:id', _delete);
@@ -27,7 +27,7 @@ function getAllOfMe(req, res, next) {
 }
 
 function getAllOfUser(req, res, next) {
-    postService.getAllOfThisUser(req.param.id)
+    postService.getAllOfThisUser(req.params.id)
         .then(barracks => res.json(barracks))
         .catch(err => next(err));
 }

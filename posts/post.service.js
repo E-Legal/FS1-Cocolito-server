@@ -19,6 +19,7 @@ async function getAll() {
 }
 
 async function getAllOfThisUser(id) {
+    console.log(id);
     return await Post.find({user_id: id});
 }
 
