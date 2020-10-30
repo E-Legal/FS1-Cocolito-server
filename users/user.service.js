@@ -1,90 +1,90 @@
-let config = require('../config.json');
-let jwt = require('jsonwebtoken');
-let bcrypt = require('bcryptjs');
-let db = require('../_helpers/db');
-let User = db.User;
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const config = require('../config.json');
+const db = require('../_helpers/db');
 
-module.exports = {
-    authenticate,
-    getAll,
-    getById,
-    create,
-    update,
-    updateMember,
-    getMe
-};
+const { User } = db;
 
-async function authenticate({email, password}) {
-    let user = await User.findOne({email});
-    if (user && bcrypt.compareSync(password, user.password)) {
-        let token = jwt.sign({sub: user.id}, config.secret);
-        return {
-            ...user.toJSON(),
-            token
-        };
-    }
+async function authenticate({ email, password }) {
+  const user = await User.findOne({ email });
+  if (user && bcrypt.compareSync(password, user.password)) {
+    const token = jwt.sign({ sub: user.id }, config.secret);
+    return {
+      ...user.toJSON(),
+      token,
+    };
+  }
 }
 
 async function getMe(userid) {
-    return await User.findById(userid);
+  return await User.findById(userid);
 }
 
 async function getAll() {
-    return await User.find();
+  return await User.find();
 }
 
 async function getById(id) {
-    return await User.findById(id);
+  return await User.findById(id);
 }
 
 async function create(userParam) {
-    // validate
-    if (await User.findOne({username: userParam.username})) {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
+  // validate
+  if (await User.findOne({ username: userParam.username })) {
+    // eslint-disable-next-line no-throw-literal
+    throw `Username "${userParam.username}" is already taken`;
+  }
 
-    if (await User.findOne({email: userParam.email})) {
-        throw 'Username "' + userParam.email + '" is already used';
-    }
+  if (await User.findOne({ email: userParam.email })) {
+    throw `Username "${userParam.email}" is already used`;
+  }
 
-    let user = new User();
+  const user = new User();
 
-    user.username = userParam.username;
-    user.email = userParam.email;
+  user.username = userParam.username;
+  user.email = userParam.email;
 
-    // hash password
-    if (userParam.password) {
-        user.password = bcrypt.hashSync(userParam.password, 10);
-    }
+  // hash password
+  if (userParam.password) {
+    user.password = bcrypt.hashSync(userParam.password, 10);
+  }
 
-
-    // save user
-    return await user.save();
+  // save user
+  return await user.save();
 }
 
-async function update(id, {password}) {
-    let user = await User.findById(id);
+async function update(id, { password }) {
+  const user = await User.findById(id);
 
-    if (!user) throw 'User not found';
-    let userParam = user;
+  if (!user) throw 'User not found';
+  const userParam = user;
 
-    if (password) {
-        userParam.password = bcrypt.hashSync(password, 10);
-    }
+  if (password) {
+    userParam.password = bcrypt.hashSync(password, 10);
+  }
 
-    // copy userParam properties to user
-    Object.assign(user, userParam);
+  // copy userParam properties to user
+  Object.assign(user, userParam);
 
-    return await user.save();
+  return await user.save();
 }
 
 async function updateMember(id) {
-    let user = await User.findById(id);
-    if (!user) throw 'User not found';
-    let userParam = user;
+  const user = await User.findById(id);
+  if (!user) throw 'User not found';
+  const userParam = user;
 
-
-    userParam.member = true;
-    Object.assign(user, userParam);
-    return await user.save();
+  userParam.member = true;
+  Object.assign(user, userParam);
+  return await user.save();
 }
+
+module.exports = {
+  authenticate,
+  getAll,
+  getById,
+  create,
+  update,
+  updateMember,
+  getMe,
+};
